@@ -14,15 +14,15 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class WebSecurityConfig {
 
     @Bean
-    public static PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder();}
+    public static PasswordEncoder passwordEncoder(){return new BCryptPasswordEncoder();}
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/register/**").permitAll()
-                .antMatchers("/index").permitAll()
-                .antMatchers("/users").hasRole("ADMIN")
+                .antMatchers( "/register/**").permitAll()
+                .antMatchers( "/index").permitAll()
+                .antMatchers( "/users").hasRole("ADMIN")
                 .and()
                 .formLogin(
                         form -> form
@@ -32,7 +32,7 @@ public class WebSecurityConfig {
                                 .permitAll()
                 ).logout(
                         logout -> logout
-                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                                .logoutRequestMatcher(new AntPathRequestMatcher( "/logout"))
                                 .permitAll()
                 );
         return http.build();

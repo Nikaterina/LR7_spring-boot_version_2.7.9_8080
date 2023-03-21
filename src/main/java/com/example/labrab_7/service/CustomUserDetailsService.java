@@ -1,17 +1,18 @@
 package com.example.labrab_7.service;
 
+import com.example.labrab_7.entity.Role;
+import com.example.labrab_7.repository.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import com.example.labrab_7.entity.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import com.example.labrab_7.entity.User;
-import com.example.labrab_7.repository.UserRepository;
 
 import java.util.stream.Collectors;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsService  implements UserDetailsService {
 
     private UserRepository userRepository;
 
@@ -21,9 +22,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
 
         User user = userRepository.findByEmail(usernameOrEmail);
-        if(user != null) {
-            return new org.springframework.security.core.userdetails.User(user.getEmail(),
-                    user.getPassword(),
+        if(user !=null){
+            return new org.springframework.security.core.userdetails.User(user.getEmail()
+                    , user.getPassword(),
                     user.getRoles().stream()
                             .map((role) -> new SimpleGrantedAuthority(role.getName()))
                             .collect(Collectors.toList()));

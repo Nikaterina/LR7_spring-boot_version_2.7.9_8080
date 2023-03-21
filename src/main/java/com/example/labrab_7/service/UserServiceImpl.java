@@ -15,7 +15,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements  UserService {
+
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
@@ -30,10 +31,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveUser(UserDto userDto) {
+    public void  saveUser(UserDto userDto) {
         User user = new User();
-        user.setName(userDto.getFirstName() + " " + userDto.getLastName());
-        user.setEmail(user.getEmail());
+        user.setName(userDto.getFirstName() +" "+userDto.getLastName());
+        user.setEmail(userDto.getEmail());
+        // encrypt the password using spring security
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
         Role role = roleRepository.findByName("ROLE_ADMIN");
@@ -45,10 +47,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserByEmail(String email) { return  userRepository.findByEmail(email);}
+    public User findUserByEmail(String email) {return  userRepository.findByEmail(email);}
 
     @Override
-    public List<UserDto> findAllUsers() {
+    public List<UserDto> findAllUsers(){
         List<User> users = userRepository.findAll();
         return users.stream()
                 .map((user) -> mapToUserDto(user))
@@ -57,7 +59,7 @@ public class UserServiceImpl implements UserService {
 
     private UserDto mapToUserDto(User user){
         UserDto userDto = new UserDto();
-        String[] str = user.getName().split(" ");
+        String[] str = user.getName().split( " ");
         userDto.setFirstName(str[0]);
         userDto.setLastName(str[1]);
         userDto.setEmail(user.getEmail());
